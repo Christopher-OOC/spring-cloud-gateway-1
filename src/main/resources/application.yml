@@ -2,11 +2,32 @@ server:
   port: 8082
 
 spring:
+  application:
+    name: api-gateway
   cloud:
     gateway:
       routes[0]:
         id: users-status-check
-        uri: http://localhost:8081
+        uri: lb://demo-resource-server
         predicates[0]: Path=/users/status/check
         predicates[1]: Method=GET
         filter[0]: RemoveRequestHeader=Cookie
+      routes[1]:
+        id: albums
+        uri: lb://albums-server
+        predicates[0]: Path=/albums
+        predicates[1]: Method=GET
+        filter[0]: RemoveRequestHeader=Cookie
+      routes[2]:
+        id: photos
+        uri: lb://photos-server
+        predicates[0]: Path=/photos
+        predicates[1]: Method=GET
+        filter[0]: RemoveRequestHeader=Cookie
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8010/eureka
+    instance:
+      instance-id: ${spring.application.name}:${instanceId:${random.value}}

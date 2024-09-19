@@ -9,9 +9,7 @@ spring:
       routes[0]:
         id: users-status-check
         uri: lb://demo-resource-server
-        predicates[0]: Path=/users/status/git ad .
-        git commit -m "connit
-        "check
+        predicates[0]: Path=/users/status/check
         predicates[1]: Method=GET
         filter[0]: RemoveRequestHeader=Cookie
       routes[1]:
@@ -26,6 +24,12 @@ spring:
         predicates[0]: Path=/photos
         predicates[1]: Method=GET
         filter[0]: RemoveRequestHeader=Cookie
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+        add-to-simple-url-handler-mapping: true
 
 eureka:
   client:

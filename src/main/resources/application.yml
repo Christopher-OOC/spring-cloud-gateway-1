@@ -29,6 +29,8 @@ spring:
           '[/**]':
             allowedOrigins: "*"
             allowedMethods: "*"
+            allowedHeaders:
+              - Authorization
         add-to-simple-url-handler-mapping: true
 
 eureka:
